@@ -6,17 +6,19 @@ import { AuthProvider } from './context/AuthContext';
 import { Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/Login';
 import HomePage from './pages/Home';
+import NavMenu from './components/NavMenu';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
-
+        <NavMenu />
         <Routes>
           {/* Login */}
-          <Route exact path="/" element={<LoginPage />} />
+          <Route exact path="/login" element={<LoginPage />} />
           {/* Home -> lista todas las peliculas*/}
-          <Route exact path="/home" element={<HomePage />} />
+          <Route exact path="/" element={<HomePage />} />
           {/* New -> nueva pelicula */}
           <Route exact path="/new" element={<HomePage />} />
           {/* New -> nueva pelicula */}
