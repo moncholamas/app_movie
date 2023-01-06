@@ -8,6 +8,8 @@ import LoginPage from './pages/Login';
 import HomePage from './pages/Home';
 import NavMenu from './components/NavMenu';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NewPage from './pages/New';
+import RankingPage from './pages/Ranking';
 
 function App() {
   return (
@@ -19,8 +21,10 @@ function App() {
           <Route exact path="/login" element={<LoginPage />} />
           {/* Home -> lista todas las peliculas*/}
           <Route exact path="/" element={<HomePage />} />
+          {/* Ranking -> lista todas las peliculas*/}
+          <Route exact path="/ranking" element={<RankingPage />} />
           {/* New -> nueva pelicula */}
-          <Route exact path="/new" element={<HomePage />} />
+          <Route exact path="/new" element={<NewPage />} />
           {/* New -> nueva pelicula */}
           <Route exact path="/edit" element={<HomePage />} />
           {/* Profile -> peliculas favoritas y creadas */}

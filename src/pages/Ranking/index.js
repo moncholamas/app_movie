@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import axiosReq from "../../config/axiosReq";
 
 
-const HomePage = () => {
+const RankingPage = () => {
     const [users, setUsers] = useState(null);
     const [formValues, setFormvalues] = useState()
     const [loged, setLoged] = useState(false)
@@ -27,10 +27,10 @@ const HomePage = () => {
     return (
         <Container>
             <Header 
-                titulo="Home"
+                titulo="Ranking"
             />
         </Container>
     )
 }
 
-export default HomePage;
+export default RankingPage;
