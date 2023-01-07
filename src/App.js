@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NewPage from './pages/New';
 import RankingPage from './pages/Ranking';
 import RegisterPage from './pages/Register';
+import ProfilePage from './pages/Profile';
 
 function App() {
   return (
@@ -18,12 +19,14 @@ function App() {
       <AuthProvider>
         <NavMenu />
         <Routes>
-          {/* Login */}
-          <Route exact path="/login" element={<LoginPage />} />
-          {/* Login */}
-          <Route exact path="/register" element={<RegisterPage />} />
           {/* Home -> lista todas las peliculas*/}
           <Route exact path="/" element={<HomePage />} />
+          {/* Login */}
+          <Route exact path="/login" element={<LoginPage />} />
+          {/* Register */}
+          <Route exact path="/register" element={<RegisterPage />} />
+          {/* Profile*/}
+          <Route exact path="/profile" element={<ProfilePage />} />
           {/* Ranking -> lista todas las peliculas*/}
           <Route exact path="/ranking" element={<RankingPage />} />
           {/* New -> nueva pelicula */}

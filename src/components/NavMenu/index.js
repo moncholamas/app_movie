@@ -1,17 +1,40 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
+import axiosReq, { config } from '../../config/axiosReq';
+import { AuthContext } from '../../context/AuthContext';
 
 const NavMenu = () => {
     const navigate = useNavigate();
     const [logeado, setLogeado] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const userAuth = useContext(AuthContext);
+    const { user } = userAuth.authState;
 
-    const logout = () => {
-        // cierra la sesion
+    const logout = async () => {
+        setLoading(true)
+        try {
+            await axiosReq.get('/logout', config())
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            userAuth.setAuthState({ token: '', user: {} })
+            setLogeado(false)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
     }
+
+    useEffect(() => {
+        if (userAuth.isAuthenticated()) {
+            setLogeado(true)
+        }
+    }, [userAuth])
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -29,12 +52,14 @@ const NavMenu = () => {
                             logeado ?
                                 <>
                                     {/* si esta logeado se muestra el nombre y el boton para cerrar sesion */}
-                                    <Nav.Link href="#" disabled>More deets</Nav.Link>
-                                    <Button variant="danger" onClick={logout}>Salir</Button>
+                                    <Nav.Link onClick={() => navigate('/profile')}>{user.name}</Nav.Link>
+                                    <Button variant="danger" onClick={logout} disabled={loading}>
+                                        { loading ? "Saliendo" : "Salir" }
+                                    </Button>
                                 </>
                                 :
                                 <Button variant="primary" onClick={() => navigate('/login')}>Ingresar</Button>
-                    }
+                        }
 
                     </Nav>
                 </Navbar.Collapse>

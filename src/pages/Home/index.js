@@ -6,7 +6,6 @@ import axiosReq from "../../config/axiosReq";
 
 const HomePage = () => {
     const [users, setUsers] = useState(null);
-    const [formValues, setFormvalues] = useState()
     const [loged, setLoged] = useState(false)
 
 

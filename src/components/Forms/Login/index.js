@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -7,41 +7,49 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosReq from '../../../config/axiosReq';
+import { AuthContext } from '../../../context/AuthContext';
 
 const FormLogin = () => {
     const formInit = {
         email: "",
         password: ""
     }
+    const userAuth = useContext(AuthContext)
     const [formValues, setFormvalues] = useState(formInit);
     const [error, setError] = useState(null);
     const [validated, setValidated] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
-    const saveSesion = (dataSesion) => {
-        console.log('login', dataSesion)
+    const saveSesion = ({access_token, user}) => {
+        localStorage.setItem('token', access_token);
+        localStorage.setItem('user',JSON.stringify(user))
+        userAuth.setAuthState({token: access_token, user})
     }
 
     const sendCredentials = async () => {
+        setLoading(true)
         try {
             const result = await axiosReq.post('/login', formValues)
-            localStorage.setItem('token', result.data.access_token)
-            saveSesion(result.data)
+            saveSesion(result.data);
             navigate('/')
         } catch (error) {
-            setError(error.config.data)
+            console.log(error)
+            //setError(error)
+        } finally {
+            setLoading(false)
         }
     }
 
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
+        event.preventDefault();
+        event.stopPropagation();
         if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            setValidated(true);
+        }else{
+            sendCredentials()
         }
-
-        setValidated(true);
-        sendCredentials()
     };
 
     const handleInput = (e) => {
@@ -69,6 +77,7 @@ const FormLogin = () => {
                         placeholder="email"
                         value={formValues.email}
                         onChange={handleInput}
+                        disabled={loading}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -81,12 +90,15 @@ const FormLogin = () => {
                         placeholder="password"
                         value={formValues.password}
                         onChange={handleInput}
+                        disabled={loading}
                     />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
-            <Button type="submit">Inicar Sesión</Button>
-            <Button variant="light" onClick={clearForm}>Limpiar Formulario</Button>
+            <Button type="submit" disabled={loading}>
+                { loading? "Iniciando Sesion" : "Inicar Sesión"}
+            </Button>
+            <Button variant="light" onClick={clearForm} disabled={loading} >Limpiar Formulario</Button>
             <Row>
                 <Link to="/register">Todavia no tengo cuenta.</Link>
             </Row>
@@ -96,8 +108,8 @@ const FormLogin = () => {
                     <Alert variant={'danger'}>
                         {error}
                     </Alert>
-                :
-                null
+                    :
+                    null
             }
         </Form>
 

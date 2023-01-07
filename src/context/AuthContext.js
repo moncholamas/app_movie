@@ -4,11 +4,12 @@ const AuthContext = createContext();
 const { Provider } = AuthContext;
 
 const AuthProvider = ({children}) => {
-    const user = localStorage.getItem('user')
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('user');
 
     const [authState, setAuthState] = useState({
-        token: null,
-        user: user ? JSON.parse(user) : ''
+        token: token? token : null,
+        user: user ? JSON.parse(user) : null
     })
 
     const isAuthenticated = () => {
