@@ -1,16 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Navigate } from "react-router-dom";
 import LogoMoveUp from "../../assets/logoUpMovie";
-import FormLogUp from "../../components/Forms/LogUp";
+import FormMovie from "../../components/Forms/Movie";
 import Header from "../../components/Header";
-import axiosReq from "../../config/axiosReq";
+import { AuthContext } from "../../context/AuthContext";
 
 
 const NewPage = () => {
-    const [users, setUsers] = useState(null);
-    const [formValues, setFormvalues] = useState()
-    const [loged, setLoged] = useState(false)
+    const authUser = useContext(AuthContext)
 
+    if( ! authUser.isAuthenticated() ) {
+        return (<Navigate to={"/login"} replace />)
+    }
 
 
     return (
@@ -20,7 +22,7 @@ const NewPage = () => {
             />
             <Row>
                 <Col sm={12} lg={6}>
-                    <FormLogUp />
+                    <FormMovie />
                 </Col>
                 <Col>
                     <LogoMoveUp />

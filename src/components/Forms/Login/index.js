@@ -79,7 +79,6 @@ const FormLogin = () => {
                         onChange={handleInput}
                         disabled={loading}
                     />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} lg="12" controlId="validationCustom02">
                     <Form.Label>Clave</Form.Label>
@@ -92,7 +91,6 @@ const FormLogin = () => {
                         onChange={handleInput}
                         disabled={loading}
                     />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Button type="submit" disabled={loading}>

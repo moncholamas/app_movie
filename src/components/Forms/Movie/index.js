@@ -9,11 +9,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import axiosReq from '../../../config/axiosReq';
 import { AuthContext } from '../../../context/AuthContext';
 
-const FormLogUp = () => {
+const FormMovie = () => {
+    const genders = ['comedia', 'drama', 'terror', 'infantil', 'documentales'];
     const formInit = {
-        name: "",
-        email: "",
-        password: ""
+        title: "",
+        description: "",
+        gender: ""
     }
     const userAuth = useContext(AuthContext)
     const [formValues, setFormvalues] = useState(formInit);
@@ -22,10 +23,10 @@ const FormLogUp = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
-    const saveSesion = ({access_token, user}) => {
+    const saveSesion = ({ access_token, user }) => {
         localStorage.setItem('token', access_token);
-        localStorage.setItem('user',JSON.stringify(user))
-        userAuth.setAuthState({token: access_token, user})
+        localStorage.setItem('user', JSON.stringify(user))
+        userAuth.setAuthState({ token: access_token, user })
     }
 
     const sendCredentials = async () => {
@@ -49,7 +50,7 @@ const FormLogUp = () => {
         event.stopPropagation();
         if (form.checkValidity() === false) {
             setValidated(true);
-        }else{
+        } else {
             sendCredentials()
         }
     };
@@ -71,44 +72,41 @@ const FormLogUp = () => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3" style={{ textAlign: 'left' }}>
                 <Form.Group as={Col} lg="12" controlId="validationCustom02">
-                    <Form.Label>Usuario</Form.Label>
+                    <Form.Label>Titulo</Form.Label>
                     <Form.Control
-                        name="name"
+                        name="title"
                         required
-                        type="name"
-                        placeholder="name"
-                        value={formValues.name}
+                        type="text"
+                        placeholder="title"
+                        value={formValues.title}
                         onChange={handleInput}
                         disabled={loading}
                     />
                 </Form.Group>
                 <Form.Group as={Col} lg="12" controlId="validationCustom01">
-                    <Form.Label>Correo Electrónico</Form.Label>
+                    <Form.Label>Descripción</Form.Label>
                     <Form.Control
-                        name="email"
+                        name="description"
                         required
-                        type="email"
-                        placeholder="email"
-                        value={formValues.email}
+                        type="text"
+                        placeholder="description"
+                        value={formValues.description}
                         onChange={handleInput}
                         disabled={loading}
                     />
                 </Form.Group>
                 <Form.Group as={Col} lg="12" controlId="validationCustom02">
-                    <Form.Label>Clave</Form.Label>
-                    <Form.Control
-                        name="password"
-                        required
-                        type="password"
-                        placeholder="password"
-                        value={formValues.password}
-                        onChange={handleInput}
-                        disabled={loading}
-                    />
+                    <Form.Label>Género</Form.Label>
+                    <Form.Select aria-label="Default select example" name='gender' value={formValues.gender}  onChange={handleInput} disabled={loading} required>
+                        <option disabled value="" defaultValue={""} selected>Selecciona un género</option>
+                        {genders.map(g => {
+                            return <option key={g}>{g}</option>
+                        })}
+                    </Form.Select>
                 </Form.Group>
             </Row>
             <Button type="submit" disabled={loading}>
-                {loading ? "Creando Cuenta" : "Crear Cuenta"}
+                {loading ? "Creando Cuenta" : "Subir Nueva Película"}
             </Button>
             <Button variant="light" onClick={clearForm} disabled={loading}>Limpiar Formulario</Button>
             {
@@ -125,4 +123,4 @@ const FormLogUp = () => {
     )
 }
 
-export default FormLogUp;
+export default FormMovie;
