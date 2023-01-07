@@ -10,6 +10,7 @@ import NavMenu from './components/NavMenu';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NewPage from './pages/New';
 import RankingPage from './pages/Ranking';
+import RegisterPage from './pages/Register';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Routes>
           {/* Login */}
           <Route exact path="/login" element={<LoginPage />} />
+          {/* Login */}
+          <Route exact path="/register" element={<RegisterPage />} />
           {/* Home -> lista todas las peliculas*/}
           <Route exact path="/" element={<HomePage />} />
           {/* Ranking -> lista todas las peliculas*/}

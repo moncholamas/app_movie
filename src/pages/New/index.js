@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+import LogoMoveUp from "../../assets/logoUpMovie";
+import FormLogUp from "../../components/Forms/LogUp";
 import Header from "../../components/Header";
 import axiosReq from "../../config/axiosReq";
 
@@ -13,9 +15,17 @@ const NewPage = () => {
 
     return (
         <Container>
-            <Header 
-                titulo="New"
+            <Header
+                titulo='Cargar una nueva pelicula'
             />
+            <Row>
+                <Col sm={12} lg={6}>
+                    <FormLogUp />
+                </Col>
+                <Col>
+                    <LogoMoveUp />
+                </Col>
+            </Row>
         </Container>
     )
 }

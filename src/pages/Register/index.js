@@ -1,26 +1,26 @@
 import { Col, Container, Row } from "react-bootstrap";
-import FormLogin from "../../components/Forms/Login";
-import LogoLogin from "../../assets/logoLogIn";
 import Header from "../../components/Header";
+import LogoLogUp from "../../assets/LogoLogUp";
+import FormLogUp from "../../components/Forms/LogUp";
 
 
-const LoginPage = () => {
+const RegisterPage = () => {
 
     return (
         <Container>
             <Header
-                titulo='Iniciar Sesión'
+                titulo='Crea una cuenta'
             />
             <Row>
                 <Col>
-                    <LogoLogin />
+                    <LogoLogUp />
                 </Col>
                 <Col sm={12} lg={6}>
-                    <FormLogin />
+                    <FormLogUp />
                 </Col>
             </Row>
         </Container>
     )
 }
 
-export default LoginPage;
+export default RegisterPage;
