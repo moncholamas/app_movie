@@ -33,7 +33,7 @@ const ProfilePage = () => {
     const handleRemove = async (e) => {
         setRemoving(true)
         const { headers } = config();
-        const { value: id_movie} =e.target;
+        const { value: id_movie } = e.target;
         try {
             const res = await axiosReq({
                 method: "post",
@@ -43,6 +43,7 @@ const ProfilePage = () => {
                 },
                 headers
             })
+            setFavorites()
             getFavorites()
         } catch (error) {
             console.log(error)
@@ -61,8 +62,8 @@ const ProfilePage = () => {
             selector: row => row.gender,
             hide: 'sm'
         },
-        { 
-            cell:(row) => <Button variant="danger" size="sm" onClick={handleRemove} disabled={removing} value={row.id}>Quitar</Button>,
+        {
+            cell: (row) => <Button variant="danger" size="sm" onClick={handleRemove} disabled={removing} value={row.id}>Quitar</Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -93,23 +94,15 @@ const ProfilePage = () => {
                     </Container>
 
                     {
-                        loading && <Loading texto="cargando favoritos" />
+                        loading ?
+                            <Loading texto="cargando favoritos" />
+                            :
+                            <DataTable
+                                title={"Mis Favoritos"}
+                                columns={columns}
+                                data={favorites}
+                            />
                     }
-                    <>
-                        {
-                            favorites ?
-                                <>
-                                    <DataTable
-                                        title={"Mis Favoritos"}
-                                        columns={columns}
-                                        data={favorites}
-                                    />
-                                </>
-                                :
-
-                                null
-                        }
-                    </>
                 </Col>
                 <Col>
                     <LogoMoveUp />
