@@ -4,15 +4,20 @@ import axiosReq, { config } from "../../config/axiosReq";
 import DataTable from "react-data-table-component";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useNavigate } from "react-router-dom";
+import Loading from "../Loading";
 
 
 const TableMovies = () => {
     const [allMovies, setAllMovies] = useState(null);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     dayjs.extend(relativeTime);
 
     const handleShowMore = (e) => {
-        console.log(e.target.value  )
+        const id_movie = e.target.value
+        navigate(`/details/${id_movie}`)
     }
     const columns = [
         {
@@ -41,11 +46,14 @@ const TableMovies = () => {
     ];
 
     const getMovies = async () => {
+        setLoading(true)
         try {
             const result = await axiosReq.get('/movies', config())
             setAllMovies(result.data)
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -55,6 +63,9 @@ const TableMovies = () => {
 
     return (
         <Container>
+            {
+                loading && <Loading texto="Obteniendo listado actualizado" />
+            }
             {
                 allMovies && 
                 <DataTable

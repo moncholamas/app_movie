@@ -12,6 +12,7 @@ import NewPage from './pages/New';
 import RankingPage from './pages/Ranking';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
+import DetailsPage from './pages/Details';
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
           <Route exact path="/profile" element={<ProfilePage />} />
           {/* Ranking -> lista todas las peliculas*/}
           <Route exact path="/ranking" element={<RankingPage />} />
+          {/* ShowMore -> muestar los detalles de la pelicula*/}
+          <Route exact path="/details/">
+            <Route path=":id_movie" element={<DetailsPage />} />
+          </Route>
           {/* New -> nueva pelicula */}
           <Route exact path="/new" element={<NewPage />} />
           {/* New -> nueva pelicula */}

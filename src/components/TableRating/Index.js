@@ -3,19 +3,31 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import Header from "../Header";
 import axiosReq, { config } from "../../config/axiosReq";
 import DataTable from "react-data-table-component";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Loading";
 
 const TableRanking = ({handleShowCommentaries}) => {
-    const [moviesRating, setMoviesRating] = useState(null)
+    const [moviesRating, setMoviesRating] = useState(null);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const getMovies = async () => {
+        setLoading(true);
         try {
             const result = await axiosReq.get('/movies/rating', config())
             setMoviesRating(result.data)
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
+
+    const handleShowMore = (e) => {
+        const id_movie = e.target.value
+        navigate(`/details/${id_movie}`)
+    }
     
 
     const columns = [
@@ -34,7 +46,7 @@ const TableRanking = ({handleShowCommentaries}) => {
             hide: 'sm'
         },
         { 
-            cell:(row) => <Button variant="secondary" size="sm"  value={row.id_movie}>Ver más</Button>,
+            cell:(row) => <Button variant="secondary" size="sm" onClick={handleShowMore} value={row.id_movie}>Ver más</Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,
@@ -53,6 +65,9 @@ const TableRanking = ({handleShowCommentaries}) => {
 
     return (
         <Container>
+            {
+                loading && <Loading texto="Obteniendo listado actualizado" />
+            }
             {
                 moviesRating &&
                 <DataTable

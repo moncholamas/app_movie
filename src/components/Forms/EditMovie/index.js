@@ -9,31 +9,39 @@ import { Link, useNavigate } from 'react-router-dom';
 import axiosReq, { config } from '../../../config/axiosReq';
 import { AuthContext } from '../../../context/AuthContext';
 
-const FormMovie = () => {
+const EditMovie = ({detalles, getDetalles}) => {
     const genders = ['comedia', 'drama', 'terror', 'infantil', 'documentales'];
     const formInit = {
-        title: "",
-        description: "",
-        gender: ""
+        title: detalles.title,
+        description: detalles.description,
+        gender: detalles.gender
     }
     const userAuth = useContext(AuthContext)
     const [formValues, setFormvalues] = useState(formInit);
     const [error, setError] = useState(null);
     const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [confirmacion, setConfirmacion] = useState(null)
+    const [confirmacion, setConfirmacion] = useState(null);
+    const [noChanges,setNoChanges] = useState(true)
     const navigate = useNavigate()
     
 
     const uploadMovie = async () => {
+        const {headers} = config()
         setLoading(true)
         try {
-            const result = await axiosReq.post('/movies', formValues,config())
+            const result = await axiosReq({
+                method: "put",
+                url: `/movies/${detalles.id}`, 
+                data: formValues, 
+                headers
+            })
             clearForm()
-            setConfirmacion(`La pelicula ${result.data.title} se agregó correctamente`)
+            setConfirmacion(`La pelicula ${detalles.title} se editó correctamente`);
+            getDetalles()
         } catch (error) {
-            console.log(error.config.data)
-            setError(error.config.data)
+            console.log(error)
+            //setError(error)
         } finally {
             setLoading(false)
         }
@@ -54,14 +62,20 @@ const FormMovie = () => {
     const handleInput = (e) => {
         setError(null)
         const { value, name } = e.target
+        if(value!==detalles[name]){
+            setNoChanges(false)
+        }
+
         setFormvalues({ ...formValues, [name]: value })
+        
     }
 
     const clearForm = () => {
         setFormvalues(formInit);
         setError(null);
         setValidated(false);
-        setConfirmacion(null)
+        setConfirmacion(null);
+        setNoChanges(true)
     }
 
 
@@ -112,14 +126,14 @@ const FormMovie = () => {
                             role="status"
                             aria-hidden="true"
                         />
-                        <span>Subiendo Nueva Pelicula</span>
+                        <span>Subiendo Cambios</span>
                     </Button>
                     : 
-                    <Button type="submit" disabled={loading}>
-                        <span>Subir Nueva Película</span>
+                    <Button type="submit" disabled={loading || noChanges}>
+                        <span>Subir Cambios</span>
                     </Button>
             }
-            <Button variant="light" onClick={clearForm} disabled={loading}>Limpiar Formulario</Button>
+            <Button variant="light" onClick={clearForm} disabled={loading}>Reiniciar Formulario</Button>
             {
                 error !== null ?
 
@@ -138,4 +152,4 @@ const FormMovie = () => {
     )
 }
 
-export default FormMovie;
+export default EditMovie;

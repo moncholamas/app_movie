@@ -11,7 +11,7 @@ const RegisterPage = () => {
     const authUser = useContext(AuthContext)
 
     if( authUser.isAuthenticated() ) {
-        return (<Navigate to={"/profile"} replace />)
+        return (<Navigate to={"/login"} replace />)
     }
 
     return (

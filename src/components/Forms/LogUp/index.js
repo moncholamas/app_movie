@@ -129,7 +129,7 @@ const FormLogUp = () => {
                 error !== null ?
 
                     <Alert variant={'danger'}>
-                        {error}
+                        Error al generar cuenta
                     </Alert>
                     :
                     null

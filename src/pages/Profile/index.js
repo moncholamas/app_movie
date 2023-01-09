@@ -1,17 +1,52 @@
-import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import DataTable from "react-data-table-component";
+import { Navigate } from "react-router-dom";
 import LogoMoveUp from "../../assets/logoUpMovie";
 import FormLogUp from "../../components/Forms/LogUp";
 import Header from "../../components/Header";
-import axiosReq from "../../config/axiosReq";
+import Loading from "../../components/Loading";
+import axiosReq, { config } from "../../config/axiosReq";
+import { AuthContext } from "../../context/AuthContext";
 
 
 const ProfilePage = () => {
-    const [users, setUsers] = useState(null);
-    const [formValues, setFormvalues] = useState()
-    const [loged, setLoged] = useState(false)
+    const authUser = useContext(AuthContext);
+    const { user } = authUser.authState;
+    const [loading, setLoading] = useState(false);
+    const [favorites, setFavorites] = useState(null)
 
+    const getFavorites = async () => {
+        setLoading(true)
+        try {
+            const result = await axiosReq.get(`/movies/favorites`, config());
+            setFavorites(result.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
 
+    const columns = [
+        {
+            name: 'Titulo',
+            selector: row => row.title,
+        },
+        {
+            name: 'Géneros',
+            selector: row => row.gender,
+        },
+    ]
+
+    useEffect(() => {
+        getFavorites();
+    }, [])
+
+    if (!authUser.isAuthenticated()) {
+        return (<Navigate to={"/"} replace />)
+    }
 
     return (
         <Container>
@@ -19,8 +54,33 @@ const ProfilePage = () => {
                 titulo='Mi cuenta'
             />
             <Row>
-                <Col sm={12} lg={6}>
-                    <FormLogUp />
+                <Col sm={12} lg={6} >
+                    <Container style={{ textAlign: "left" }}>
+                        <>
+                            <p><b>Nombre de usuario:</b> {user.name} </p>
+                            <p><b>Correo electrónico:</b> {user.email} </p>
+                            <p><b>Fecha de alta:</b> {dayjs(user.created_at).format('YYYY-MM-DD HH:mm')} </p>
+                        </>
+                    </Container>
+
+                    {
+                        loading && <Loading texto="cargando favoritos" />
+                    }
+                    <>
+                        {
+                            favorites ?
+                                <>
+                                    <DataTable
+                                        title={"Mis Favoritos"}
+                                        columns={columns}
+                                        data={favorites}
+                                    />
+                                </>
+                                :
+
+                                null
+                        }
+                    </>
                 </Col>
                 <Col>
                     <LogoMoveUp />

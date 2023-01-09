@@ -46,7 +46,9 @@ const NavMenu = () => {
                     <Nav className="me-auto">
                         <Nav.Link onClick={() => navigate('/')}>Inicio</Nav.Link>
                         <Nav.Link onClick={() => navigate('/ranking')}>Ranking</Nav.Link>
-                        <Nav.Link onClick={() => navigate('/new')}>Nueva</Nav.Link>
+                        {
+                            logeado && <Nav.Link onClick={() => navigate('/new')}>Nueva</Nav.Link>
+                        }
                     </Nav>
                     <Nav>
                         {
