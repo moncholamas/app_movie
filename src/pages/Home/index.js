@@ -1,33 +1,24 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import Header from "../../components/Header";
-import axiosReq from "../../config/axiosReq";
+import TableMovies from "../../components/TableMovies";
 
 
 const HomePage = () => {
-    const [users, setUsers] = useState(null);
-    const [loged, setLoged] = useState(false)
 
-
-    const getMovies = async () => {
-        try {
-            const result = await axiosReq.get('/test/token')
-            console.log(result, 'conectado con token')
-            setUsers(result)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(()=>{
-        if(loged) getMovies()
-    },[loged])
 
     return (
         <Container>
-            <Header 
-                titulo="Home"
+            <Header
+                titulo="Te damos la bienvenida a AppMovies"
             />
+            <Row>
+                <Col sm={12} lg={12}>
+                    <Container>
+                        <TableMovies />
+                    </Container>
+                </Col>
+            </Row>
         </Container>
     )
 }

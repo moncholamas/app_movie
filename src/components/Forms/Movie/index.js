@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -105,9 +105,23 @@ const FormMovie = () => {
                     </Form.Select>
                 </Form.Group>
             </Row>
-            <Button type="submit" disabled={loading}>
-                {loading ? "Creando Cuenta" : "Subir Nueva Película"}
-            </Button>
+            {
+                loading ?
+                    <Button type="submit" disabled={loading}>
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        <span>Subiendo Nueva Pelicula</span>
+                    </Button>
+                    : 
+                    <Button type="submit" disabled={loading}>
+                        <span>Subir Nueva Película</span>
+                    </Button>
+            }
             <Button variant="light" onClick={clearForm} disabled={loading}>Limpiar Formulario</Button>
             {
                 error !== null ?

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -107,9 +107,23 @@ const FormLogUp = () => {
                     />
                 </Form.Group>
             </Row>
-            <Button type="submit" disabled={loading}>
-                {loading ? "Creando Cuenta" : "Crear Cuenta"}
-            </Button>
+            {
+                loading ?
+                    <Button type="submit" disabled={loading}>
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        <span>Creando Cuenta</span>
+                    </Button>
+                    : 
+                    <Button type="submit" disabled={loading}>
+                        <span>Crear Cuenta</span>
+                    </Button>
+            }
             <Button variant="light" onClick={clearForm} disabled={loading}>Limpiar Formulario</Button>
             {
                 error !== null ?

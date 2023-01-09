@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -53,9 +54,23 @@ const NavMenu = () => {
                                 <>
                                     {/* si esta logeado se muestra el nombre y el boton para cerrar sesion */}
                                     <Nav.Link onClick={() => navigate('/profile')}>{user.name}</Nav.Link>
-                                    <Button variant="danger" onClick={logout} disabled={loading}>
-                                        { loading ? "Saliendo" : "Salir" }
-                                    </Button>
+                                    {
+                                        loading ?
+                                            <Button variant= "danger" disabled={loading} onClick={logout}>
+                                                <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                />
+                                                <span>Saliendo</span>
+                                            </Button>
+                                            :
+                                            <Button variant= "danger" disabled={loading}onClick={logout}>
+                                                <span>Salir</span>
+                                            </Button>
+                                    }
                                 </>
                                 :
                                 <Button variant="primary" onClick={() => navigate('/login')}>Ingresar</Button>

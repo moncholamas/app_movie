@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Spinner } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -20,10 +20,10 @@ const FormLogin = () => {
     const [validated, setValidated] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
-    const saveSesion = ({access_token, user}) => {
+    const saveSesion = ({ access_token, user }) => {
         localStorage.setItem('token', access_token);
-        localStorage.setItem('user',JSON.stringify(user))
-        userAuth.setAuthState({token: access_token, user})
+        localStorage.setItem('user', JSON.stringify(user))
+        userAuth.setAuthState({ token: access_token, user })
     }
 
     const sendCredentials = async () => {
@@ -47,7 +47,7 @@ const FormLogin = () => {
         event.stopPropagation();
         if (form.checkValidity() === false) {
             setValidated(true);
-        }else{
+        } else {
             sendCredentials()
         }
     };
@@ -93,9 +93,24 @@ const FormLogin = () => {
                     />
                 </Form.Group>
             </Row>
-            <Button type="submit" disabled={loading}>
-                { loading? "Iniciando Sesion" : "Inicar Sesión"}
-            </Button>
+            {
+                loading ?
+                    <Button type="submit" disabled={loading}>
+                        <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        <span>Iniciando Sesion</span>
+                    </Button>
+                    : 
+                    <Button type="submit" disabled={loading}>
+                        <span>Iniciando Sesion</span>
+                    </Button>
+            }
+
             <Button variant="light" onClick={clearForm} disabled={loading} >Limpiar Formulario</Button>
             <Row>
                 <Link to="/register">Todavia no tengo cuenta.</Link>
