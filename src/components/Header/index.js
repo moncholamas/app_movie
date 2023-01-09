@@ -7,7 +7,7 @@ const Header = ({ titulo, mensaje}) => {
     useEffect(()=>{
         setTimeout(() => {
             setShowMensaje(false)
-        }, 2000);
+        }, 3000);
     },[showMensaje])
     return (
         <Container fluid>

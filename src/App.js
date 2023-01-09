@@ -13,6 +13,7 @@ import RankingPage from './pages/Ranking';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
 import DetailsPage from './pages/Details';
+import NotFoundPage from './pages/NotFound';
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
           <Route exact path="/edit" element={<HomePage />} />
           {/* Profile -> peliculas favoritas y creadas */}
           <Route exact path="/profile" element={<HomePage />} />
+          {/* 404 */}
+          <Route exact path="/*" element={<NotFoundPage />} />
 
         </Routes>
       </AuthProvider>

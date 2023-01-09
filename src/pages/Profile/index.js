@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { useContext, useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { Navigate } from "react-router-dom";
 import LogoMoveUp from "../../assets/logoUpMovie";
@@ -15,7 +15,8 @@ const ProfilePage = () => {
     const authUser = useContext(AuthContext);
     const { user } = authUser.authState;
     const [loading, setLoading] = useState(false);
-    const [favorites, setFavorites] = useState(null)
+    const [favorites, setFavorites] = useState(null);
+    const [removing, setRemoving] = useState(false);
 
     const getFavorites = async () => {
         setLoading(true)
@@ -29,6 +30,27 @@ const ProfilePage = () => {
         }
     }
 
+    const handleRemove = async (e) => {
+        setRemoving(true)
+        const { headers } = config();
+        const { value: id_movie} =e.target;
+        try {
+            const res = await axiosReq({
+                method: "post",
+                url: `/movies/favorite/${id_movie}`,
+                data: {
+                    favorite: false
+                },
+                headers
+            })
+            getFavorites()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setRemoving(false)
+        }
+    }
+
     const columns = [
         {
             name: 'Titulo',
@@ -37,6 +59,13 @@ const ProfilePage = () => {
         {
             name: 'Géneros',
             selector: row => row.gender,
+            hide: 'sm'
+        },
+        { 
+            cell:(row) => <Button variant="danger" size="sm" onClick={handleRemove} disabled={removing} value={row.id}>Quitar</Button>,
+            ignoreRowClick: true,
+            allowOverflow: true,
+            button: true,
         },
     ]
 

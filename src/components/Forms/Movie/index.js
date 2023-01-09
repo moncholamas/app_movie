@@ -32,7 +32,6 @@ const FormMovie = () => {
             clearForm()
             setConfirmacion(`La pelicula ${result.data.title} se agregó correctamente`)
         } catch (error) {
-            console.log(error.config.data)
             setError(error.config.data)
         } finally {
             setLoading(false)

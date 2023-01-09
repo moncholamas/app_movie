@@ -35,6 +35,9 @@ const DetailsPage = () => {
         const url = authUser.isAuthenticated() ? `/movies/details/${id_movie}` : `/movies/details/public/${id_movie}`;
         try {
             const result = await axiosReq.get(url, config());
+            if( result.data.not_found ){
+                navigate('/', { state: { mensaje: { texto: result.data.not_found, variant: "danger" } } })
+            }
             setDetalles(result.data)
         } catch (error) {
             console.log(error)
@@ -89,7 +92,6 @@ const DetailsPage = () => {
                 },
                 headers
             })
-            console.log(result)
             getDetalles();
         } catch (error) {
             console.log(error)
@@ -110,7 +112,6 @@ const DetailsPage = () => {
                 },
                 headers
             })
-            console.log(result)
             getDetalles();
         } catch (error) {
             console.log(error)
@@ -120,10 +121,10 @@ const DetailsPage = () => {
     }
 
     useEffect(() => {
-        if (detalles.rating.rating) {
+        if (detalles.rating !== null && detalles.rating.rating) {
             setPuntaje(detalles.rating.rating)
         }
-        if (detalles.rating.commentary) {
+        if (detalles.rating !== null && detalles.rating.commentary) {
             setMensaje(detalles.rating.commentary)
         }
     }, [detalles])
