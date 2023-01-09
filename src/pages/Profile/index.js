@@ -100,7 +100,7 @@ const ProfilePage = () => {
                             <DataTable
                                 title={"Mis Favoritos"}
                                 columns={columns}
-                                data={favorites}
+                                data={favorites || []}
                             />
                     }
                 </Col>

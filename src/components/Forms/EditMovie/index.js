@@ -109,7 +109,7 @@ const EditMovie = ({detalles, getDetalles}) => {
                 <Form.Group as={Col} lg="12" controlId="validationCustom02">
                     <Form.Label>Género</Form.Label>
                     <Form.Select aria-label="Default select example" name='gender' value={formValues.gender}  onChange={handleInput} disabled={loading} required>
-                        <option disabled value="" selected>Selecciona un género</option>
+                        <option disabled value="">Selecciona un género</option>
                         {genders.map(g => {
                             return <option key={g}>{g}</option>
                         })}

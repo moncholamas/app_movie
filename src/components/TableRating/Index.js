@@ -52,7 +52,7 @@ const TableRanking = ({handleShowCommentaries}) => {
             button: true,
         },
         { 
-            cell:(row) => <Button variant="secondary" size="sm" onClick={handleShowCommentaries} value={row.id_movie}>Comentarios</Button>,
+            cell:(row) => <Button variant="light" size="sm" onClick={handleShowCommentaries} value={row.id_movie}>Comentarios</Button>,
             ignoreRowClick: true,
             allowOverflow: true,
             button: true,

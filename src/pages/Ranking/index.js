@@ -45,10 +45,10 @@ const RankingPage = () => {
                         }
                         {
                             comentarios ? 
-                            comentarios.map( com => {
+                            comentarios.map( (com, index) => {
                                 return (
                                     <div>
-                                        <p>  <Badge bg="primary"> Valoración: {com.rating}</Badge> {com.commentary} </p> 
+                                        <p key={index}>  <Badge bg="primary"> Valoración: {com.rating}</Badge> {com.commentary} </p> 
                                         <hr />
                                     </div>
                                 )

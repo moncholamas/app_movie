@@ -217,7 +217,7 @@ const DetailsPage = () => {
                                             <Col lg>
                                                 <Form.Group as={Col} lg="12" controlId="validationCustom02">
                                                     <Form.Select disabled={updatingRating} aria-label="Default select example" required name='gender' value={puntaje} onChange={(e) => setPuntaje(e.target.value)}>
-                                                        <option disabled selected>Puntuación</option>
+                                                        <option disabled >Puntuación</option>
                                                         {[1, 2, 3, 4, 5].map(g => {
                                                             return <option key={g}>{g}</option>
                                                         })}
