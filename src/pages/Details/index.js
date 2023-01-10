@@ -18,7 +18,6 @@ const DetailsPage = () => {
     const [loading, setLoading] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [rateForm, setRateForm] = useState(null);
-    const [logeado, setLogeado] = useState(authUser.isAuthenticated());
     const [updatingFavorite, setUpdatingFavorite] = useState(false);
     const [updatingRating, setUpdatingRating] = useState(false);
     const [uploadMessage, setUploadMessage] = useState(false);
@@ -28,7 +27,7 @@ const DetailsPage = () => {
     const [blocCommentary, setBloqCommentary] = useState(true);
     const [error, setError] = useState(null)
     let { id_movie } = useParams();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const getDetalles = async () => {
         setLoading(true)
@@ -133,6 +132,10 @@ const DetailsPage = () => {
     useEffect(() => {
         getDetalles();
     }, [])
+
+    if( ! authUser.isAuthenticated() ) {
+        navigate("/login",{ state: { mensaje: { texto: "Debes iniciar sesión para continuar", variant: "success" } } });
+    }
 
 
     return (
@@ -280,10 +283,6 @@ const DetailsPage = () => {
                                         }
                                     </Form>
                                 </div>
-                                <br />
-                                {
-                                    !logeado && <Link to="/login">No estás logeado...</Link>
-                                }
                             </Col>
                         </Row>
                     </>
