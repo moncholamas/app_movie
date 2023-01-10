@@ -16,3 +16,4 @@ Frontend:
 - React-DataTables
 
 
+[Documentacion de Postman (incompleta)](https://github.com/moncholamas/api_movie/blob/main/documentacion/api_movies.postman_collection.json)
